@@ -1,0 +1,6 @@
+package winapi
+
+var SE_DEBUG_PRIVILEGE = 20
+
+var PROCESS_QUERY_INFORMATION = 0x0400
+var PROCESS_VM_READ           = 0x0010
