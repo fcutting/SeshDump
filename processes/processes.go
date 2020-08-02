@@ -2,13 +2,44 @@ package processes
 
 import (
     "fmt"
+    
     "../winapi"
 )
 
+type Process struct {
+    PID       uint32
+    Name      string
+    Path      string
+    User      string
+    SID       string
+    Arguments string
+}
+
 func Dump() {
     pids := getPIDs()
+    processes := make([]Process, len(pids))
     
-    fmt.Println(pids)
+    for i, pid := range pids {
+        handle := winapi.OpenProcess(pid)
+        
+        if handle > 0 {
+            defer winapi.CloseHandle(handle)
+            
+            processes[i].PID = pid
+            processes[i].Path = getFilePath(handle)
+        }
+    }
+    
+    for _, proc := range processes {
+        if proc.PID > 0 {
+            fmt.Println("pid: ", proc.PID)
+            fmt.Println("path:", proc.Path)
+            fmt.Println("name:", proc.Name)
+            fmt.Println("user:", proc.User)
+            fmt.Println("sid: ", proc.SID)
+            fmt.Println("")
+        }
+    }
 }
 
 func getPIDs() []uint32 {
@@ -38,4 +69,12 @@ func getPIDs() []uint32 {
     }
     
     return buffer[:pidCount]
+}
+
+func getFilePath(handle uintptr) string {
+    buffer := make([]byte, 260)
+    
+    pathLength := winapi.GetModuleFileNameExA(handle, buffer)
+    
+    return string(buffer[:int(pathLength)])
 }
