@@ -8,6 +8,4 @@ import (
 func main() {
     winapi.RtlAdjustPrivilege()
     processes.Dump()
-    
-    for {}
 }
