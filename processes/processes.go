@@ -2,8 +2,11 @@ package processes
 
 import (
     "fmt"
+    "strings"
+    // "unsafe"
     
     "../winapi"
+    // "github.com/shirou/gopsutil/process"
 )
 
 type Process struct {
@@ -12,7 +15,6 @@ type Process struct {
     Path      string
     User      string
     SID       string
-    Arguments string
 }
 
 func Dump() {
@@ -27,16 +29,17 @@ func Dump() {
             
             processes[i].PID = pid
             processes[i].Path = getFilePath(handle)
+            processes[i].Name = getFileName(processes[i].Path)
         }
     }
     
     for _, proc := range processes {
         if proc.PID > 0 {
-            fmt.Println("pid: ", proc.PID)
-            fmt.Println("path:", proc.Path)
-            fmt.Println("name:", proc.Name)
-            fmt.Println("user:", proc.User)
-            fmt.Println("sid: ", proc.SID)
+            fmt.Println("pid:       ", proc.PID)
+            fmt.Println("path:      ", proc.Path)
+            fmt.Println("name:      ", proc.Name)
+            fmt.Println("user:      ", proc.User)
+            fmt.Println("sid:       ", proc.SID)
             fmt.Println("")
         }
     }
@@ -77,4 +80,9 @@ func getFilePath(handle uintptr) string {
     pathLength := winapi.GetModuleFileNameExA(handle, buffer)
     
     return string(buffer[:int(pathLength)])
+}
+
+func getFileName(path string) string {
+    name := strings.Split(path, "\\")
+    return name[len(name) - 1]
 }
