@@ -7,12 +7,12 @@ import (
 )
 
 type ProcessInfo struct {
-    PID       int
-    Path      string
-    Name      string
-    User      string
-    SID       string
-    Arguments string
+    PID       int    `xml:"PID"`
+    Path      string `xml:"Path"`
+    Name      string `xml:"Name"`
+    User      string `xml:"User"`
+    SID       string `xml:"SID"`
+    Arguments string `xml:"Arguments"`
 }
 
 func Dump() []ProcessInfo {

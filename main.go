@@ -1,14 +1,18 @@
 package main
 
 import (
-    "fmt"
+    "os"
     "log"
     
+    "./arguments"
     "./processes"
     "./winapi"
+    "./output"
 )
 
 func main() {
+    arguments := arguments.Parse(os.Args)
+    
     var previousValue bool
     
     err := winapi.RtlAdjustPrivilege(winapi.SE_DEBUG_PRIVILEGE, 1, 0, previousValue)
@@ -17,15 +21,15 @@ func main() {
         log.Fatal("main_RtlAdjustPrivilege:", err)
     }
     
-    processes := processes.Dump()
-    
-    for _, process := range processes {
-        fmt.Println("PID      : ", process.PID)
-        fmt.Println("Path     : ", process.Path)
-        fmt.Println("Name     : ", process.Name)
-        fmt.Println("User     : ", process.User)
-        fmt.Println("SID      : ", process.SID)
-        fmt.Println("Arguments: ", process.Arguments)
-        fmt.Println("")
+    if arguments.Processes {
+        processes := processes.Dump()
+        
+        if arguments.OutputScreen {
+            output.ProcessesScreen(processes)
+        } else if arguments.OutputXML {
+            output.ProcessesXML(processes)
+        } else if arguments.OutputJSON {
+            output.ProcessesJSON(processes)
+        }
     }
 }
