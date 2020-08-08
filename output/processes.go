@@ -23,7 +23,7 @@ func ProcessesScreen(processes []processes.ProcessInfo) {
 }
 
 func ProcessesXML(processes []processes.ProcessInfo) {
-    file, err := xml.MarshalIndent(processes, "", " ")
+    file, err := xml.MarshalIndent(processes, "", "    ")
     
     if err != nil {
         log.Fatal("output.ProcessesXML_xml.MarshalIndent: ", err)
@@ -37,7 +37,7 @@ func ProcessesXML(processes []processes.ProcessInfo) {
 }
 
 func ProcessesJSON(processes []processes.ProcessInfo) {
-    file, err := json.MarshalIndent(processes, "", " ")
+    file, err := json.MarshalIndent(processes, "", "")
     
     if err != nil {
         log.Fatal("output.ProcessesJSON_json.MarshalIndent: ", err)
