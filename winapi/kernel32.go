@@ -11,7 +11,7 @@ var (
 )
 
 func OpenProcess(desiredAccess uintptr, inheritHandle uint32, pid uint32) (uintptr, error) {
-    r1, _, err := procOpenProcess.Call(uintptr(STANDARD_RIGHTS_REQUIRED) | uintptr(SYNCHRONIZE) | uintptr(0xFFFF), uintptr(inheritHandle), uintptr(pid))
+    r1, _, err := procOpenProcess.Call(desiredAccess, uintptr(inheritHandle), uintptr(pid))
     
     if r1 == 0 {
         return r1, err
