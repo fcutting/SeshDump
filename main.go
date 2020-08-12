@@ -3,16 +3,29 @@ package main
 import (
     "os"
     "log"
+    "time"
     
     "./arguments"
     "./processes"
     "./winapi"
-    "./output"
 )
 
 func main() {
+    // create session folder
+    sessionFolder := "sessions/" + time.Now().Format("20060102150405") + "/"
+    
+    if _, err := os.Stat(sessionFolder); os.IsNotExist(err) {
+        err := os.MkdirAll(sessionFolder, 0755)
+        
+        if err != nil {
+            log.Fatal("main_os.MkdirAll: ", err)
+        }
+    }
+    
+    // parse arguments
     arguments := arguments.Parse(os.Args)
     
+    // elevate privileges to SE_DEBUG_PRIVILEGE
     var previousValue bool
     
     err := winapi.RtlAdjustPrivilege(winapi.SE_DEBUG_PRIVILEGE, 1, 0, previousValue)
@@ -21,15 +34,8 @@ func main() {
         log.Fatal("main_RtlAdjustPrivilege:", err)
     }
     
+    // dump environment artifacts
     if arguments.Processes {
-        processes := processes.Dump()
-        
-        if arguments.OutputScreen {
-            output.ProcessesScreen(processes)
-        } else if arguments.OutputXML {
-            output.ProcessesXML(processes)
-        } else if arguments.OutputJSON {
-            output.ProcessesJSON(processes)
-        }
+        processes.Dump(sessionFolder, arguments)
     }
 }

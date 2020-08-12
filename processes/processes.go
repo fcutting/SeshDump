@@ -4,6 +4,7 @@ import (
     "log"
     
     "../winapi"
+    "../arguments"
 )
 
 type ProcessInfo struct {
@@ -15,7 +16,8 @@ type ProcessInfo struct {
     Arguments string `xml:"Arguments"`
 }
 
-func Dump() []ProcessInfo {
+func Dump(sessionFolder string, arguments arguments.Arguments) {
+    // retrieve running processes information
     pids := getPIDs()
     var processInfo ProcessInfo
     processes := make([]ProcessInfo, 0)
@@ -44,5 +46,16 @@ func Dump() []ProcessInfo {
         }
     }
     
-    return processes
+    // export information
+    if arguments.OutputScreen {
+        outputScreen(processes)
+    }
+    
+    if arguments.OutputXML {
+        outputXML(processes, sessionFolder + "processes.xml")
+    }
+    
+    if arguments.OutputJSON {
+        outputJSON(processes, sessionFolder + "processes.json")
+    }
 }
