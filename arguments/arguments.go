@@ -3,6 +3,7 @@ package arguments
 type Arguments struct {
     Processes    bool
     Registry     bool
+    Services     bool
     OutputScreen bool
     OutputXML    bool
     OutputJSON   bool
@@ -17,6 +18,8 @@ func Parse(args []string) Arguments {
             arguments.Processes = true
         case "-r":
             arguments.Registry = true
+        case "-s":
+            arguments.Services = true
         case "-oS":
             arguments.OutputScreen = true
         case "-oX":

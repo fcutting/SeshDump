@@ -9,6 +9,7 @@ import (
     "./processes"
     "./winapi"
     "./registry"
+    "./services"
 )
 
 func main() {
@@ -46,5 +47,9 @@ func main() {
     
     if args.Registry {
         registry.Dump(sessionFolder, args)
+    }
+    
+    if args.Services {
+        services.Dump(sessionFolder, args)
     }
 }
