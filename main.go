@@ -8,22 +8,27 @@ import (
     "./arguments"
     "./processes"
     "./winapi"
+    "./registry"
 )
 
 func main() {
+    // parse arguments
+    args := arguments.Parse(os.Args)
+
     // create session folder
-    sessionFolder := "sessions/" + time.Now().Format("20060102150405") + "/"
-    
-    if _, err := os.Stat(sessionFolder); os.IsNotExist(err) {
-        err := os.MkdirAll(sessionFolder, 0755)
-        
-        if err != nil {
-            log.Fatal("main_os.MkdirAll: ", err)
+    var sessionFolder string
+
+    if args.OutputJSON || args.OutputXML {
+        sessionFolder = "sessions/" + time.Now().Format("20060102150405") + "/"
+
+        if _, err := os.Stat(sessionFolder); os.IsNotExist(err) {
+            err := os.MkdirAll(sessionFolder, 0755)
+
+            if err != nil {
+                log.Fatal("main_os.MkdirAll: ", err)
+            }
         }
     }
-    
-    // parse arguments
-    arguments := arguments.Parse(os.Args)
     
     // elevate privileges to SE_DEBUG_PRIVILEGE
     var previousValue bool
@@ -35,7 +40,11 @@ func main() {
     }
     
     // dump environment artifacts
-    if arguments.Processes {
-        processes.Dump(sessionFolder, arguments)
+    if args.Processes {
+        processes.Dump(sessionFolder, args)
+    }
+    
+    if args.Registry {
+        registry.Dump(sessionFolder, args)
     }
 }
