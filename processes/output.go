@@ -24,13 +24,13 @@ func outputXML(processes []ProcessInfo, filename string) {
     file, err := xml.MarshalIndent(processes, "", "  ")
     
     if err != nil {
-        log.Fatal("processes.outputXML_MarshalIndent: ", err)
+        log.Fatal("processes.outputXML() xml.MarshalIndent: ", err)
     }
     
     err = ioutil.WriteFile(filename, file, 0644)
     
     if err != nil {
-        log.Fatal("processes.outputXML_ioutil.WriteFile: ", err)
+        log.Fatal("processes.outputXML() ioutil.WriteFile: ", err)
     }
 }
 
@@ -38,12 +38,12 @@ func outputJSON(processes []ProcessInfo, filename string) {
     file, err := json.MarshalIndent(processes, "", "  ")
     
     if err != nil {
-        log.Fatal("processes.outputJSON_json.MarshalIndent: ", err)
+        log.Fatal("processes.outputJSON() json.MarshalIndent: ", err)
     }
     
     err = ioutil.WriteFile(filename, file, 0644)
     
     if err != nil {
-        log.Fatal("processes.outputJSON_ioutil.WriteFile: ", err)
+        log.Fatal("processes.outputJSON() ioutil.WriteFile: ", err)
     }
 }

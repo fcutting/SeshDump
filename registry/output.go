@@ -21,13 +21,13 @@ func outputXML(registries []RegistryInfo, filename string) {
 	file, err := xml.MarshalIndent(registries, "", "  ")
 
 	if err != nil {
-		log.Fatal("registry.outputXML_MarshalIndent: ", err)
+		log.Fatal("registry.outputXML() xml.MarshalIndent: ", err)
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 
 	if err != nil {
-		log.Fatal("registry.outputXML_ioutil.WriteFile: ", err)
+		log.Fatal("registry.outputXML() ioutil.WriteFile: ", err)
 	}
 }
 
@@ -35,12 +35,12 @@ func outputJSON(registries []RegistryInfo, filename string) {
 	file, err := json.MarshalIndent(registries, "", "  ")
 
 	if err != nil {
-		log.Fatal("registry.outputJSON_json.MarshalIndent: ", err)
+		log.Fatal("registry.outputJSON() json.MarshalIndent: ", err)
 	}
 
 	err  = ioutil.WriteFile(filename, file, 0644)
 
 	if err != nil {
-		log.Fatal("registry.outputJSON_iotuil.WriteFile: ", err)
+		log.Fatal("registry.outputJSON() iotuil.WriteFile: ", err)
 	}
 }

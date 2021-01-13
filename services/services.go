@@ -2,7 +2,8 @@ package services
 
 import (
     "golang.org/x/sys/windows/svc/mgr"
-    
+    "log"
+
     "../arguments"
 )
 
@@ -16,9 +17,17 @@ func Dump(sessionFolder string, arguments arguments.Arguments) {
     // retrieve services information
     services := make([]ServiceInfo, 0)
     
-    mgrHandle, _ := mgr.Connect()
+    mgrHandle, err := mgr.Connect()
+
+    if err != nil {
+        log.Fatal("services.Dump() mgr.Connect: ", err)
+    }
     
-    servicesNames, _ := mgrHandle.ListServices()
+    servicesNames, err := mgrHandle.ListServices()
+
+    if err != nil {
+        log.Fatal("services.Dump() mgrHandle.ListServices: ", err)
+    }
     
     for _, serviceName := range servicesNames {
         service, err := mgrHandle.OpenService(serviceName)

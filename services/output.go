@@ -21,13 +21,13 @@ func outputXML(services []ServiceInfo, filename string) {
     file, err := xml.MarshalIndent(services, "", "  ")
     
     if err != nil {
-        log.Fatal("services.outputXML_MarshalIndent: ", err)
+        log.Fatal("services.outputXML() xml.MarshalIndent: ", err)
     }
     
     err = ioutil.WriteFile(filename, file, 0644)
     
     if err != nil {
-        log.Fatal("services.outputXML_ioutil.WriteFile: ", err)
+        log.Fatal("services.outputXML() ioutil.WriteFile: ", err)
     }
 }
 
@@ -35,12 +35,12 @@ func outputJSON(services []ServiceInfo, filename string) {
     file, err := json.MarshalIndent(services, "", "  ")
     
     if err != nil {
-        log.Fatal("services.outputJSON_json.MarshalIndent: ", err)
+        log.Fatal("services.outputJSON() json.MarshalIndent: ", err)
     }
     
     err  = ioutil.WriteFile(filename, file, 0644)
     
     if err != nil {
-        log.Fatal("services.outputJSON_iotuil.WriteFile: ", err)
+        log.Fatal("services.outputJSON() iotuil.WriteFile: ", err)
     }
 }

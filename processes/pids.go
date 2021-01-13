@@ -15,7 +15,7 @@ func getPIDs() []uint32 {
         err := winapi.EnumProcesses(&buffer[0], bufferSize, &needed)
         
         if err != nil {
-            log.Fatal("processes.getPIDs_EnumProcesses: ", err)
+            log.Fatal("processes.getPIDs() winapi.EnumProcesses: ", err)
         }
         
         if buffer[len(buffer) - 1] == 0 {
@@ -27,7 +27,7 @@ func getPIDs() []uint32 {
     }
     
     if needed == 0 {
-        log.Fatal("processes.getPIDs_EnumProcesses: Returned no data")
+        log.Fatal("processes.getPIDs() winapi.EnumProcesses: Returned no data")
     }
     
     var count int

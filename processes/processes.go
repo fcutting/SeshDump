@@ -26,7 +26,7 @@ func Dump(sessionFolder string, arguments arguments.Arguments) {
         handle, err := winapi.OpenProcess(winapi.PROCESS_ALL_ACCESS, uint32(1), pid)
         
         if err != nil && err.Error() != "Access is denied." {
-            log.Fatal("processes.Dump_OpenProcess: ", err)
+            log.Fatal("processes.Dump() winapi.OpenProcess: ", err)
         }
         
         if handle > 0 {
@@ -41,7 +41,7 @@ func Dump(sessionFolder string, arguments arguments.Arguments) {
             err = winapi.CloseHandle(handle)
             
             if err != nil {
-                log.Fatal("processes.Dump_CloseHandle: ", err)
+                log.Fatal("processes.Dump() winapi.CloseHandle: ", err)
             }
         }
     }

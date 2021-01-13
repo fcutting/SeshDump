@@ -16,11 +16,11 @@ func getArguments(handle uintptr) string {
     err := winapi.NtQueryInformationProcess(handle, uintptr(0), (*byte)(unsafe.Pointer(&procBasicInfo)), uint32(unsafe.Sizeof(procBasicInfo)), &needed)
     
     if err != nil {
-        log.Fatal("processes.getArguments_NtQueryInformationProcess: ", err)
+        log.Fatal("processes.getArguments() winapi.NtQueryInformationProcess: ", err)
     }
     
     if needed == 0 {
-        log.Fatal("processes.getArguments_NtQueryInformationProcess: Returned no data")
+        log.Fatal("processes.getArguments() winapi.NtQueryInformationProcess: Returned no data")
     }
     
     // get user proc params address
@@ -29,11 +29,11 @@ func getArguments(handle uintptr) string {
     err = winapi.NtReadVirtualMemory(handle, procBasicInfo.PebBaseAddress + 32, (*byte)(unsafe.Pointer(&paramsAddress)), uint32(8), &needed)
     
     if err != nil {
-        log.Fatal("processes.getArguments_NtReadVirtualMemory: ", err)
+        log.Fatal("processes.getArguments() winapi.NtReadVirtualMemory: ", err)
     }
     
     if needed == 0 {
-        log.Fatal("processes.getArguments_NtReadVirtualMemory: Returned no data")
+        log.Fatal("processes.getArguments() winapi.NtReadVirtualMemory: Returned no data")
     }
     
     // get commandline unicode string structure
@@ -42,11 +42,11 @@ func getArguments(handle uintptr) string {
     err = winapi.NtReadVirtualMemory(handle, paramsAddress + 112, (*byte)(unsafe.Pointer(&commandLine)), uint32(16), &needed)
     
     if err != nil {
-        log.Fatal("processes.getArguments_NtReadVirtualMemory: ", err)
+        log.Fatal("processes.getArguments() winapi.NtReadVirtualMemory: ", err)
     }
     
     if needed == 0 {
-        log.Fatal("processes.getArguments_NtReadVirtualMemory: Returned no data")
+        log.Fatal("processes.getArguments() winapi.NtReadVirtualMemory: Returned no data")
     }
     
     // get commandline arguments
@@ -55,11 +55,11 @@ func getArguments(handle uintptr) string {
     err = winapi.NtReadVirtualMemory(handle, commandLine.Buffer, (*byte)(unsafe.Pointer(&cmd[0])), uint32(commandLine.Length), &needed)
     
     if err != nil {
-        log.Fatal("processes.getArguments_NtReadVirtualMemory: ", err)
+        log.Fatal("processes.getArguments() winapi.NtReadVirtualMemory: ", err)
     }
     
     if needed == 0 {
-        log.Fatal("processes.getArguments_NtReadVirtualMemory: Returned no data")
+        log.Fatal("processes.getArguments() winapi.NtReadVirtualMemory: Returned no data")
     }
     
     return syscall.UTF16ToString(cmd)

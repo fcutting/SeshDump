@@ -26,7 +26,7 @@ func main() {
             err := os.MkdirAll(sessionFolder, 0755)
 
             if err != nil {
-                log.Fatal("main_os.MkdirAll: ", err)
+                log.Fatal("main() os.MkdirAll: ", err)
             }
         }
     }
@@ -37,7 +37,7 @@ func main() {
     err := winapi.RtlAdjustPrivilege(winapi.SE_DEBUG_PRIVILEGE, 1, 0, previousValue)
     
     if err != nil {
-        log.Fatal("main_RtlAdjustPrivilege:", err)
+        log.Fatal("main() winapi.RtlAdjustPrivilege:", err)
     }
     
     // dump environment artifacts

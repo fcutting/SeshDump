@@ -12,7 +12,7 @@ func getPath(handle uintptr) string {
     length, err := winapi.GetModuleFileNameExA(handle, &buffer[0], uint32(len(buffer)))
     
     if err != nil {
-        log.Fatal("processes.getPath_GetModuleFileNameExA: ", err)
+        log.Fatal("processes.getPath() winapi.GetModuleFileNameExA: ", err)
     }
     
     return string(buffer[:int(length)])
